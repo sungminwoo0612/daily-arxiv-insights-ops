@@ -10,12 +10,12 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. 의존성 파일 복사 및 설치
-COPY requirements.txt .
+COPY ./backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 5. 소스 코드 복사
-COPY src/ ./src/
-COPY data/ ./data/
+COPY ./backend/src/ ./src/
+COPY ./backend/data/ ./data/
 
 # 6. 환경변수 설정 (기본값)
 ENV PYTHONUNBUFFERED=1
