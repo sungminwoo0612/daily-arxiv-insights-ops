@@ -35,8 +35,8 @@ jobs:
       - name: Build and push LLM API image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./backend/Dockerfile
+          context: ./backend
+          file: Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/llm-api:latest
           cache-from: type=gha
@@ -46,7 +46,7 @@ jobs:
       - name: Build and push Airflow image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./backend/Dockerfile.airflow
+          context: ./backend
+          file: Dockerfile.airflow
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/airflow:latest
