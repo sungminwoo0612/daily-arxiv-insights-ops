@@ -1,0 +1,125 @@
+# version: '3.8'
+
+services:
+  # --- Backend Services ---
+  llm-api:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: arxiv-rag-service
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/data:/app/data
+    networks:
+      - monitoring-nw
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./infra/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring-nw
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "13000:3000"
+    networks:
+      - monitoring-nw
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin # 초기 비번
+
+  airflow-init:
+    # image: apache/airflow:2.7.1-python3.10
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.airflow
+    depends_on:
+      - airflow-db # Postgres 서비스 이름
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@airflow-db/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    # DB 초기화 및 사용자 생성을 수행하는 커맨드
+    command: >
+      bash -c "airflow db init &&
+      airflow users create --username admin --firstname Sungmin --lastname Woo --role Admin --email w.sungmin99@gmail.com --password admin"
+    volumes:
+      - ./backend/data:/opt/airflow/data
+    networks:
+      - monitoring-nw
+
+  airflow-db:
+      image: postgres:13
+      environment:
+        - POSTGRES_USER=airflow
+        - POSTGRES_PASSWORD=airflow
+        - POSTGRES_DB=airflow
+      networks:
+        - monitoring-nw
+
+  airflow-webserver:
+    #image: apache/airflow:2.7.1-python3.10
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.airflow
+    command: webserver
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    environment: 
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@airflow-db/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    volumes:
+      - ./backend/dags:/opt/airflow/dags
+      - ./backend/src:/opt/airflow/dags/src # 소스코드 공유
+      - ./backend/data:/opt/airflow/data    # 데이터 공유 (중요!)
+    ports:
+      - "8080:8080"
+    networks:
+      - monitoring-nw
+
+  airflow-scheduler:
+    # image: apache/airflow:2.7.1-python3.10
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.airflow
+    command: scheduler
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@airflow-db/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    volumes:
+      - ./backend/dags:/opt/airflow/dags
+      - ./backend/src:/opt/airflow/dags/src
+      - ./backend/data:/opt/airflow/data
+    networks:
+      - monitoring-nw
+
+  # --- Frontend Service ---
+  web-ui:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: arxiv-rag-web-ui
+    ports:
+      - "3000:3000"
+    environment:
+      # 브라우저에서 백엔드로 요청을 보낼 주소
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - llm-api
+    networks:
+      - monitoring-nw
+
+networks:
+  monitoring-nw:
+    driver: bridge

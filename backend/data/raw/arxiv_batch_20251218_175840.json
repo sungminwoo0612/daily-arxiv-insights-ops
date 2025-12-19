@@ -1,0 +1,65 @@
+[
+    {
+        "paper_id": "2512.15687v1",
+        "title": "Can LLMs Guide Their Own Exploration? Gradient-Guided Reinforcement Learning for LLM Reasoning",
+        "authors": [
+            "Zhenwen Liang",
+            "Sidi Lu",
+            "Wenhao Yu",
+            "Kishan Panaganti",
+            "Yujun Zhou",
+            "Haitao Mi",
+            "Dong Yu"
+        ],
+        "summary": "Reinforcement learning has become essential for strengthening the reasoning abilities of large language models, yet current exploration mechanisms remain fundamentally misaligned with how these models actually learn. Entropy bonuses and external semantic comparators encourage surface level variation but offer no guarantee that sampled trajectories differ in the update directions that shape optimization. We propose G2RL, a gradient guided reinforcement learning framework in which exploration is driven not by external heuristics but by the model own first order update geometry. For each response, G2RL constructs a sequence level feature from the model final layer sensitivity, obtainable at negligible cost from a standard forward pass, and measures how each trajectory would reshape the policy by comparing these features within a sampled group. Trajectories that introduce novel gradient directions receive a bounded multiplicative reward scaler, while redundant or off manifold updates are deemphasized, yielding a self referential exploration signal that is naturally aligned with PPO style stability and KL control. Across math and general reasoning benchmarks (MATH500, AMC, AIME24, AIME25, GPQA, MMLUpro) on Qwen3 base 1.7B and 4B models, G2RL consistently improves pass@1, maj@16, and pass@k over entropy based GRPO and external embedding methods. Analyzing the induced geometry, we find that G2RL expands exploration into substantially more orthogonal and often opposing gradient directions while maintaining semantic coherence, revealing that a policy own update space provides a far more faithful and effective basis for guiding exploration in large language model reinforcement learning.",
+        "published_date": "2025-12-17T18:44:45Z",
+        "categories": [
+            "cs.LG",
+            "cs.AI"
+        ],
+        "pdf_url": "https://arxiv.org/pdf/2512.15687v1",
+        "collected_at": "2025-12-18T17:58:40.570489"
+    },
+    {
+        "paper_id": "2512.15674v1",
+        "title": "Activation Oracles: Training and Evaluating LLMs as General-Purpose Activation Explainers",
+        "authors": [
+            "Adam Karvonen",
+            "James Chua",
+            "Clément Dumas",
+            "Kit Fraser-Taliente",
+            "Subhash Kantamneni",
+            "Julian Minder",
+            "Euan Ong",
+            "Arnab Sen Sharma",
+            "Daniel Wen",
+            "Owain Evans",
+            "Samuel Marks"
+        ],
+        "summary": "Large language model (LLM) activations are notoriously difficult to understand, with most existing techniques using complex, specialized methods for interpreting them. Recent work has proposed a simpler approach known as LatentQA: training LLMs to directly accept LLM activations as inputs and answer arbitrary questions about them in natural language. However, prior work has focused on narrow task settings for both training and evaluation. In this paper, we instead take a generalist perspective. We evaluate LatentQA-trained models, which we call Activation Oracles (AOs), in far out-of-distribution settings and examine how performance scales with training data diversity. We find that AOs can recover information fine-tuned into a model (e.g., biographical knowledge or malign propensities) that does not appear in the input text, despite never being trained with activations from a fine-tuned model. Our main evaluations are four downstream tasks where we can compare to prior white- and black-box techniques. We find that even narrowly-trained LatentQA models can generalize well, and that adding additional training datasets (such as classification tasks and a self-supervised context prediction task) yields consistent further improvements. Overall, our best AOs match or exceed prior white-box baselines on all four tasks and are the best method on 3 out of 4. These results suggest that diversified training to answer natural-language queries imparts a general capability to verbalize information about LLM activations.",
+        "published_date": "2025-12-17T18:26:28Z",
+        "categories": [
+            "cs.CL",
+            "cs.AI",
+            "cs.LG"
+        ],
+        "pdf_url": "https://arxiv.org/pdf/2512.15674v1",
+        "collected_at": "2025-12-18T17:58:40.570519"
+    },
+    {
+        "paper_id": "2512.15663v1",
+        "title": "Explaining the Reasoning of Large Language Models Using Attribution Graphs",
+        "authors": [
+            "Chase Walker",
+            "Rickard Ewetz"
+        ],
+        "summary": "Large language models (LLMs) exhibit remarkable capabilities, yet their reasoning remains opaque, raising safety and trust concerns. Attribution methods, which assign credit to input features, have proven effective for explaining the decision making of computer vision models. From these, context attributions have emerged as a promising approach for explaining the behavior of autoregressive LLMs. However, current context attributions produce incomplete explanations by directly relating generated tokens to the prompt, discarding inter-generational influence in the process. To overcome these shortcomings, we introduce the Context Attribution via Graph Explanations (CAGE) framework. CAGE introduces an attribution graph: a directed graph that quantifies how each generation is influenced by both the prompt and all prior generations. The graph is constructed to preserve two properties-causality and row stochasticity. The attribution graph allows context attributions to be computed by marginalizing intermediate contributions along paths in the graph. Across multiple models, datasets, metrics, and methods, CAGE improves context attribution faithfulness, achieving average gains of up to 40%.",
+        "published_date": "2025-12-17T18:15:26Z",
+        "categories": [
+            "cs.AI",
+            "cs.CL"
+        ],
+        "pdf_url": "https://arxiv.org/pdf/2512.15663v1",
+        "collected_at": "2025-12-18T17:58:40.570534"
+    }
+]

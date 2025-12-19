@@ -1,0 +1,11 @@
+arxiv
+pydantic
+python-dotenv
+chromadb
+openai
+fastapi
+uvicorn
+sentence-transformers
+langchain 
+langchain-openai
+prometheus-fastapi-instrumentator
