@@ -2,3 +2,17 @@
 **/.env
 .env
 *.env
+
+# Data files
+datasets/*.pdf
+datasets/assets/
+datasets/done/
+datasets/metadata*.json
+metadata.csv
+
+# Notebook outputs
+notebooks/__pycache__/
+notebooks/*.ipynb_checkpoints/
+notebooks/output_result/
+notebooks/Untitled
+notebooks/*.csv

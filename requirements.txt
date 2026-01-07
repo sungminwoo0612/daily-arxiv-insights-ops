@@ -1,0 +1,47 @@
+# 1. PyTorch Ecosystem (RTX 5090용 CUDA 12.4 버전 강제 지정)
+# --extra-index-url을 사용하여 CPU 버전이 아닌 GPU 버전을 받아오게 합니다.
+--extra-index-url https://download.pytorch.org/whl/cu124
+
+torch>=2.4.0
+torchvision
+torchaudio
+
+# 2. PDF Parser & Core
+marker-pdf
+surya-ocr
+texify
+
+# 3. Performance Optimization (선택 사항)
+# 대용량 처리 시 속도를 높여주지만, 윈도우에서 설치가 까다로울 수 있습니다.
+# 설치 에러가 나면 주석 처리(#) 하세요.
+accelerate
+# flash-attn  <-- 리눅스 환경이라면 주석 해제 추천 (속도 향상 큼)
+
+# 4. Utilities
+tqdm
+numpy
+pillow
+
+ipykernel
+ipywidgets
+beautifulsoup4
+pandas
+lxml
+arxiv
+google-genai
+google-generativeai
+pymupdf
+matplotlib
+seaborn
+habanero
+supabase
+sentence-transformers
+transformers
+accelerate
+qwen_vl_utils
+
+# pip install flash-attn --no-build-isolation
+# flash_attn
+
+diffusers
+invisible-watermark>=0.2.0

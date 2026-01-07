@@ -1,18 +1,95 @@
+# Environment variables
 .env
+.env.local
+.env.*.local
+env.example.local
+
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
+*.py[cod]
+*$py.class
 *.so
+.Python
 *.egg
 *.egg-info/
 dist/
 build/
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Testing
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
+.tox/
+.nox/
+.hypothesis/
+*.cover
+*.py,cover
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Airflow
+airflow.db
+airflow.cfg
+logs/
+airflow-webserver.pid
+airflow-scheduler.pid
+
+# Logs
 *.log
+logs/
+*.log.*
+
+# Data & Storage
 data/vectordb/
 data/raw/*.json
+*.db
+*.sqlite
+*.sqlite3
 
+# Temporary files
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/

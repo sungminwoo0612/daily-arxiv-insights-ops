@@ -59,12 +59,14 @@ arxiv-ops-pilot/
 ```
 
 
-```
+```bash
 cd /home/wsm/workspace/daily-arxiv-insights-ops
-.venv/bin/uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
+source .venv/bin/activate
+cd backend
+../.venv/bin/uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
 ```
 
-```
+```bash
 docker compose up -d --build
 docker compose logs airflow-scheduler | grep -i error
 ```
