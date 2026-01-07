@@ -16,3 +16,6 @@ notebooks/*.ipynb_checkpoints/
 notebooks/output_result/
 notebooks/Untitled
 notebooks/*.csv
+
+# Notebooks with hardcoded credentials
+notebooks/00_etl_pipeline.ipynb
