@@ -8,4 +8,9 @@ uvicorn
 sentence-transformers
 langchain 
 langchain-openai
+langchain-cohere
+langchain-community
+sentence-transformers
 prometheus-fastapi-instrumentator
+prometheus-client
+rank-bm25

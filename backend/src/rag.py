@@ -12,13 +12,13 @@ load_dotenv()
 rag_retrieval_duration = Histogram(
     'rag_retrieval_seconds', 
     'Vector search latency',
-    bucket=[0.1, 0.5, 1.0, 2.0, 5.0]  # 검색은 1초 이내 목표
+    buckets=[0.1, 0.5, 1.0, 2.0, 5.0]  # 검색은 1초 이내 목표
 )
 
 rag_llm_duration = Histogram(
     'rag_llm_call_seconds', 
     'LLM API call latency',
-    bucket=[1.0, 3.0, 5.0, 10.0, 20.0]  # OpenAI 응답 3-5초 목표
+    buckets=[1.0, 3.0, 5.0, 10.0, 20.0]  # OpenAI 응답 3-5초 목표
 )
 
 rag_total_duration = Histogram(
