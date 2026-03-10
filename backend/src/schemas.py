@@ -29,3 +29,75 @@ class ArxivPaper(BaseModel):
                 "pdf_url": "http://arxiv.org/pdf/..."
             }
         }
+
+
+class ResearchProfile(BaseModel):
+    """개인 연구 방향과 우선순위를 정의하는 프로필"""
+
+    focus_areas: List[str] = Field(default_factory=list, description="핵심 관심 주제")
+    exclude_topics: List[str] = Field(default_factory=list, description="우선순위에서 제외할 주제")
+    preferred_queries: List[str] = Field(default_factory=list, description="수집에 사용할 검색 쿼리")
+    research_program: str = Field(default="", description="연구 목적과 판단 기준을 적은 텍스트")
+
+
+class PaperNote(BaseModel):
+    """논문을 개인 연구 메모 형태로 구조화한 노트"""
+
+    paper_id: str
+    title: str
+    source_url: str
+    published_date: datetime
+    authors: List[str] = Field(default_factory=list)
+    summary: str
+    problem: str
+    method: str
+    key_findings: List[str] = Field(default_factory=list)
+    limitations: List[str] = Field(default_factory=list)
+    why_it_matters: str
+    relation_to_interests: str
+    read_next: str
+    topics: List[str] = Field(default_factory=list)
+    relevance_score: float = 0.0
+    my_notes: str = ""
+    generated_at: datetime = Field(default_factory=datetime.now)
+
+    def to_retrieval_text(self) -> str:
+        return "\n".join(
+            [
+                f"Title: {self.title}",
+                f"Problem: {self.problem}",
+                f"Method: {self.method}",
+                f"Key Findings: {'; '.join(self.key_findings)}",
+                f"Limitations: {'; '.join(self.limitations)}",
+                f"Why It Matters: {self.why_it_matters}",
+                f"Relation To Interests: {self.relation_to_interests}",
+                f"Read Next: {self.read_next}",
+                f"Topics: {', '.join(self.topics)}",
+                f"Summary: {self.summary}",
+                f"My Notes: {self.my_notes}",
+            ]
+        )
+
+
+class DigestEntry(BaseModel):
+    """일일 리서치 다이제스트 항목"""
+
+    paper_id: str
+    title: str
+    source_url: str
+    published_date: datetime
+    score: float
+    why_it_matters: str
+    relation_to_interests: str
+    read_next: str
+    topics: List[str] = Field(default_factory=list)
+
+
+class DailyDigest(BaseModel):
+    """개인 연구용 일일 다이제스트"""
+
+    date: str
+    generated_at: datetime = Field(default_factory=datetime.now)
+    summary: str
+    entries: List[DigestEntry] = Field(default_factory=list)
+    profile_focus: List[str] = Field(default_factory=list)

@@ -1,15 +1,16 @@
 import chromadb
 from chromadb.utils import embedding_functions
-from typing import List, Optional
-from src.schemas import ArxivPaper
+from typing import Dict, List, Optional
+
+from src.schemas import ArxivPaper, PaperNote
 from src.reranker import BaseReranker, RerankerFactory
 from src.config import settings
 
 class VectorDB:
     def __init__(
-        self, 
-        db_path: str = "data/vectordb", 
-        collection_name: str = "arxiv_papers",
+        self,
+        db_path: Optional[str] = None,
+        collection_name: Optional[str] = None,
         enable_reranker: bool = True
     ):
         # Config에서 기본값 가져오기
@@ -40,7 +41,7 @@ class VectorDB:
                 print(f"⚠️ Reranker initialization failed: {e}")
                 print("   Falling back to vector search only")
 
-    def upsert_papers(self, papers: List[ArxivPaper]):
+    def upsert_papers(self, papers: List[ArxivPaper], notes_by_id: Optional[Dict[str, PaperNote]] = None):
         """
         논문 요약(Summary)을 임베딩하여 저장합니다.
         이미 있는 paper_id라면 업데이트합니다 (Upsert).
@@ -49,7 +50,11 @@ class VectorDB:
             return
 
         ids = [p.paper_id for p in papers]
-        documents = [p.summary for p in papers] # 벡터화할 텍스트
+        notes_by_id = notes_by_id or {}
+        documents = [
+            notes_by_id[p.paper_id].to_retrieval_text() if p.paper_id in notes_by_id else p.summary
+            for p in papers
+        ]
         
         # 메타데이터에는 검색 결과에 보여줄 제목, 링크 등을 넣습니다.
         metadatas = [
@@ -57,7 +62,10 @@ class VectorDB:
                 "title": p.title,
                 "date": p.published_date.isoformat(),
                 "url": p.pdf_url,
-                "authors": ", ".join(p.authors[:3]) # 저자 3명까지만
+                "authors": ", ".join(p.authors[:3]),
+                "topics": ", ".join(notes_by_id[p.paper_id].topics) if p.paper_id in notes_by_id else ", ".join(p.categories[:3]),
+                "why_it_matters": notes_by_id[p.paper_id].why_it_matters if p.paper_id in notes_by_id else p.summary[:160],
+                "relation_to_interests": notes_by_id[p.paper_id].relation_to_interests if p.paper_id in notes_by_id else "",
             } 
             for p in papers
         ]
