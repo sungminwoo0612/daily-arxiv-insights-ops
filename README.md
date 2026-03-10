@@ -28,6 +28,7 @@ ArXiv 최신 AI 논문을 수집하고, 초록을 구조화된 연구 메모로 
 - [docs/02-architecture.md](/home/wsm/workspace/daily-arxiv-insights-ops/docs/02-architecture.md)
 - [docs/03-backend.md](/home/wsm/workspace/daily-arxiv-insights-ops/docs/03-backend.md)
 - [docs/04-operations.md](/home/wsm/workspace/daily-arxiv-insights-ops/docs/04-operations.md)
+- [docs/05-secret-remediation.md](/home/wsm/workspace/daily-arxiv-insights-ops/docs/05-secret-remediation.md)
 - [INFRASTRUCTURE.md](/home/wsm/workspace/daily-arxiv-insights-ops/INFRASTRUCTURE.md)
 
 ## Current Default Stack
